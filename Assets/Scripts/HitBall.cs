@@ -26,7 +26,7 @@ public class HitBall : MonoBehaviour {
 		
 	public bool CanHit(GameObject ball){
 		Vector3 ballPos = ball.transform.position;
-		if(ballPos.x >= 161.0f && ballPos.x <= 230.0f && ballPos.y >= 11.0f && ballPos.y <= 27.0f && ballPos.z >= 166.0f && ballPos.z <= 230.0f){
+		if(ballPos.x >= 171.0f && ballPos.x <= 220.0f && ballPos.y >= 11.0f && ballPos.y <= 27.0f && ballPos.z >= 176.0f && ballPos.z <= 228.0f){
 			return true;
 		}
 		return false;

@@ -8,6 +8,7 @@ TagManager:
   - Catcher
   - Ball
   - Hitter
+  - Cursor
   layers:
   - Default
   - TransparentFX
