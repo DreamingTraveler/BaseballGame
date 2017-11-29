@@ -7,14 +7,16 @@ public class HitBall : MonoBehaviour {
 
 	GameObject ball;
 	GameObject hitting_point;
+	GameObject pitcher;
 	Rigidbody rig;
 	public bool isSwing = false;
-	private bool canHitBall = false;
+	public bool canHitBall = false;
 	//Vector3 pitchPos = GameObject.Find ("Pitching_Point").transform.position;
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator> ();
-		ball = GameObject.FindGameObjectWithTag("Ball");
+		//ball = GameObject.FindGameObjectWithTag("Ball");
+		pitcher = GameObject.FindGameObjectWithTag ("Pitcher");
 		hitting_point = GameObject.Find ("Hitting_Point");
 	}
 	// Update is called once per frame
@@ -35,10 +37,15 @@ public class HitBall : MonoBehaviour {
 		Vector3 pitchPos = GameObject.Find ("Pitching_Point").transform.position;
 		Vector3 hitting_point = GameObject.Find ("Hitting_Point").transform.position;
 		print (ball.transform.position);
-		if (CanHit(ball)) {
-			print ("HIT!!!!!!!!!!!!!!!");
-			ball.GetComponent<Rigidbody> ().velocity = (new Vector3(hitting_point.x, Input.mousePosition.y, hitting_point.z)).normalized * 88.2f;
-
-		} 
+		if (CanHit (ball)) {
+			ball.GetComponent<Rigidbody> ().velocity = (new Vector3 (hitting_point.x, Input.mousePosition.y, hitting_point.z)).normalized * 88.2f;
+		} else {
+			pitcher.GetComponent<Pitch> ().strike++;
+		}
 	}
 }
+
+//leftbottom : 207.52  12.4  200.34
+//rightbottom : 200.2  12.4  207.6
+//righttop : 207.2  25.4  215
+//lefttop : 214.6 25.4 207.6

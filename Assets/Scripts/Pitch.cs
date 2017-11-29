@@ -15,6 +15,8 @@ public class Pitch : MonoBehaviour {
 	public float hittingPointMovingSpeed;
 	public Vector3 targetPos;
 	public bool canChooseBall = true;
+	public int strike;
+	public int badBall;
 
 	private Vector3 pitchPos;
 	private Vector3 mousePos;
@@ -26,6 +28,7 @@ public class Pitch : MonoBehaviour {
 	private GameObject cursor;
 	private MeshRenderer targetMesh;
 	private Button confirmBallPos;
+	private Text StrikeBall;
 	// Use this for initialization
 	void Start () {
 		pitcherAnimator = GameObject.FindGameObjectWithTag("Pitcher").GetComponent<Animator> ();
@@ -37,18 +40,24 @@ public class Pitch : MonoBehaviour {
 		targetMesh = targetPoint.GetComponent<MeshRenderer> ();
 		cursor = GameObject.FindGameObjectWithTag ("Cursor");
 		confirmBallPos = GameObject.Find ("Confirm").GetComponent<Button>();
-		//ballAnimator = GameObject.FindGameObjectWithTag ("Ball").GetComponent<Animator> ();
-		//ballAnimator.Play ("Curve");
-
+		StrikeBall = GameObject.Find ("StrikeBall").GetComponent<Text> ();
 	}
-	
+		
+	//judgeleftbottom : 262.5  0  154.5
+	//judgelefttop : 262.5  39.6  154.5
+	//judgerighttop : 197.8  39.6  219.2
+	//judgerightbottom : 197.8  0  219.2
 	// Update is called once per frame
 	void Update () {
-	//	Debug.Log (Input.mousePosition);
 		if (isPitching) {
 			CallHitter (cloneBall);
+			Vector3 ballPos = cloneBall.transform.position;
+			if (ballPos.x >= 197.8f && ballPos.x <= 262.5f && ballPos.y >= 0f && ballPos.y <= 39.6f && ballPos.z >= 154.5f && ballPos.z <= 219.2f) {
+				JudgeBall (cloneBall);
+			}
+			StopBall (cloneBall);
 		}
-
+			
 		if (canChooseBall) {
 			ChooseBallPosition ();
 			targetPoint.transform.position = targetPos;
@@ -56,6 +65,7 @@ public class Pitch : MonoBehaviour {
 			targetMesh.enabled = false;
 			confirmBallPos.gameObject.SetActive (false);
 		}
+		StrikeBall.text = badBall + " - " + strike;
 	}
 
 	public void ChooseBallPosition(){
@@ -80,18 +90,20 @@ public class Pitch : MonoBehaviour {
 		}
 	}
 
-	public void ChooseBallType(){
-		if (isPitching == false) {
-			//pitcherAnimator.SetTrigger ("isPitch");
-			canChooseBall = true;
-			//targetPos = new Vector3 ((Input.mousePosition.x - 55.0f), (175.0f-Input.mousePosition.y) - pitchPos.y , pitchPos.z);
-
-			//Invoke ("PitchAnimate", 2.0f);
+	private void StopBall(GameObject cloneball){
+		if (cloneBall.transform.position.x + cloneBall.transform.position.z < 336f) {
+			cloneBall.GetComponent<Rigidbody> ().velocity = new Vector3(0f,0f,0f) * 0f;
+			isPitching = false;
 		}
+	}
+
+	public void ChooseBallType(){
+		canChooseBall = true;
 	}
 
 	public void CallAnimate(){
 		canChooseBall = false;
+
 		Invoke ("PitchAnimate", 2.0f);
 	}
 
@@ -105,15 +117,26 @@ public class Pitch : MonoBehaviour {
 		//PitchBall();
 	}
 
-	public void ReadyToPitch(){
+	//leftbottom : 213.6  13.3  204.6
+	//rightbottom : 213.6  13.3 204.6
+	//righttop : 204.6  24.9 213.6
+	//lefttop : 204.6 24.9 213.6
+
+	//Bleftbottom : 211.6  11  184.6
+	//Brightbottom : 184.6 11 211.6
+	//Brighttop : 184.6 24.9 211.6
+	//Blefttop : 211.6 24.9 184.6
+	public void JudgeBall(GameObject cloneBall){
+		Vector3 ballPos = cloneBall.transform.position;
+		if (ballPos.x >= 204f && ballPos.x <= 222f && ballPos.y >= 9f && ballPos.y <= 24.9f && ballPos.z >= 204f && ballPos.z <= 222f) {
+			strike++;
+		} else
+			badBall++;
 		isPitching = false;
 	}
 
 	public void PitchBall(){
-		Vector3 pitchPos = GameObject.Find ("Pitching_Point").transform.position;
-		Vector3 mouseMovingPos = Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x - h, w - Input.mousePosition.y, pitchPos.z));
-		Debug.DrawLine(pitchPos, mouseMovingPos, Color.cyan);																																												
-		isPitching = true;
+		Vector3 pitchPos = GameObject.Find ("Pitching_Point").transform.position;																																										
 
 		cloneBall = Instantiate (ball) as GameObject;
 		cloneBall.name = "CloneBall";
@@ -125,41 +148,46 @@ public class Pitch : MonoBehaviour {
 		if (ballMode != 0) {
 			gameObject.GetComponent<BreakBall> ().SetBreakBall (cloneBall, ballMode);
 		}
+
+		isPitching = true;
 	}
 
 	public void SetModeAsFourSeam(){
 		ballMode = 0;
-		hittingPointMovingSpeed = 5500f;
+		hittingPointMovingSpeed = 6000f;
 		speed = 350f;
 	}
 
 	public void SetModeAsSlider(){
 		ballMode = 1;
-		hittingPointMovingSpeed = 7000f;
+		hittingPointMovingSpeed = 5300f;
 		speed = 270f;
 	}
 
 	public void SetModeAsCutter(){
 		ballMode = 2;
-		hittingPointMovingSpeed = 6300f;
+		hittingPointMovingSpeed = 5500f;
 		speed = 300f;
 	}
 
 	public void SetModeAsFork(){
 		ballMode = 3;
-		hittingPointMovingSpeed = 7000f;
+		hittingPointMovingSpeed = 5000f;
 		speed = 270f;
 	}
 
 	private void CallHitter(GameObject cloneBall){
-		MoveHittingPoint ();
+		MoveHittingPoint (cloneBall);
 		if (Input.GetKeyDown ("space")) {
+			isPitching = false;
 		    hitter.GetComponent<HitBall> ().Swing (cloneBall);
 		}
 	}
 
-	private void MoveHittingPoint(){
-		if (hitter.GetComponent<HitBall> ().CanHit (cloneBall)) {
+	private void MoveHittingPoint(GameObject cloneBall){
+		if (/*cloneBall.transform.position.x + cloneBall.transform.position.z >= 347f &&
+			cloneBall.transform.position.x + cloneBall.transform.position.z <= 448f*/
+			hitter.GetComponent<HitBall>().CanHit(cloneBall)) {
 			//hitting_point.GetComponent<Rigidbody> ().velocity = hitting_point_end.normalized * 100.0f;
 			hittingPoint.transform.Translate(Vector3.forward * Time.deltaTime * hittingPointMovingSpeed);
 		}

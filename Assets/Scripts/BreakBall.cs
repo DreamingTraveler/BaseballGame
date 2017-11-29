@@ -6,6 +6,7 @@ public class BreakBall : MonoBehaviour {
 	public Vector3 breakPoint;
 	public float force;
 
+
 	Rigidbody rigidbody;
 	GameObject pitcher;
 	Vector3 targetPos;
@@ -31,7 +32,7 @@ public class BreakBall : MonoBehaviour {
 		rigidbody = ball.GetComponent<Rigidbody> ();
 		switch (ballMode) {
 		case 1://Slider
-			yield return new WaitForSeconds (0.32f);
+			yield return new WaitForSeconds (0.36f);
 			force = 2000f;
 			breakPoint = new Vector3 (-0.2f, -0.8f, -1f);
 			break;
