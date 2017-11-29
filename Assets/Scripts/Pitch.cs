@@ -132,7 +132,7 @@ public class Pitch : MonoBehaviour {
 			strike++;
 		} else
 			badBall++;
-		isPitching = false;
+		//isPitching = false;
 	}
 
 	public void PitchBall(){
@@ -179,10 +179,10 @@ public class Pitch : MonoBehaviour {
 	private void CallHitter(GameObject cloneBall){
 		MoveHittingPoint (cloneBall);
 		if (Input.GetKeyDown ("space")) {
-			isPitching = false;
-		    hitter.GetComponent<HitBall> ().Swing (cloneBall);
-		}
+            hitter.GetComponent<HitBall>().Swing(cloneBall);
+        }
 	}
+
 
 	private void MoveHittingPoint(GameObject cloneBall){
 		if (/*cloneBall.transform.position.x + cloneBall.transform.position.z >= 347f &&
