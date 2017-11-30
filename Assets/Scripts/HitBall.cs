@@ -10,6 +10,8 @@ public class HitBall : MonoBehaviour {
 	Rigidbody rig;
 	public bool isSwing = false;
 	private bool canHitBall = false;
+    private int strick = 0;
+    private int badball = 0;
 	//Vector3 pitchPos = GameObject.Find ("Pitching_Point").transform.position;
 	// Use this for initialization
 	void Start () {
@@ -31,6 +33,25 @@ public class HitBall : MonoBehaviour {
 		}
 		return false;
 	}	
+
+    public void JudgeBall(GameObject ball)
+    {
+        Vector3 ballPos = ball.transform.position;
+        if (ballPos.x >= 171.0f && ballPos.x <= 220.0f && ballPos.y >= 11.0f && ballPos.y <= 27.0f && ballPos.z >= 176.0f && ballPos.z <= 228.0f)
+        {
+            strick++;
+        }
+        else badball++;
+        if (strick >= 3) {
+            strick = 0;
+            Debug.Log("Strick-Out!!!");
+        }
+        if (badball >= 4) {
+            badball = 0;
+            Debug.Log("Base-On-Balls!!!");
+        } 
+    }
+
 	public void Swing(GameObject ball){
 		Vector3 pitchPos = GameObject.Find ("Pitching_Point").transform.position;
 		Vector3 hitting_point = GameObject.Find ("Hitting_Point").transform.position;

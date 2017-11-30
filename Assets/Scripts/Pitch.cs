@@ -152,7 +152,8 @@ public class Pitch : MonoBehaviour {
 	}
 
 	private void CallHitter(GameObject cloneBall){
-		MoveHittingPoint ();
+        hitter.GetComponent<HitBall>().JudgeBall(cloneBall);
+        MoveHittingPoint ();
 		if (Input.GetKeyDown ("space")) {
 		    hitter.GetComponent<HitBall> ().Swing (cloneBall);
 		}

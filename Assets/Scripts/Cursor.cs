@@ -21,8 +21,8 @@ public class Cursor : MonoBehaviour {
 		if (pitcher.GetComponent<Pitch> ().canChooseBall) {
 			mousePos = Input.mousePosition;
 			targetPos = new Vector3 ();
-			targetPos.x = mousePos.x - (w/2);
-			targetPos.y = mousePos.y - (h/2);
+			targetPos.x = mousePos.x - w;
+			targetPos.y = mousePos.y - h;
 			transform.localPosition = targetPos;
 		}
 

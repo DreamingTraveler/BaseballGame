@@ -24,6 +24,7 @@ public class BallMove : MonoBehaviour {
 			rigidbody.velocity = ballDirection.normalized * currentSpeed;
 		}
 	}
+
 	void OnCollisionEnter(Collision col){
 		if (col.gameObject.name == "Catcher") {
 			gameObject.transform.position = initPos;
