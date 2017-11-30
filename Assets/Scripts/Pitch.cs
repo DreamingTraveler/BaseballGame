@@ -154,25 +154,25 @@ public class Pitch : MonoBehaviour {
 
 	public void SetModeAsFourSeam(){
 		ballMode = 0;
-		hittingPointMovingSpeed = 6000f;
+		hittingPointMovingSpeed = 8000f;
 		speed = 350f;
 	}
 
 	public void SetModeAsSlider(){
 		ballMode = 1;
-		hittingPointMovingSpeed = 5300f;
+		hittingPointMovingSpeed = 9000f;
 		speed = 270f;
 	}
 
 	public void SetModeAsCutter(){
 		ballMode = 2;
-		hittingPointMovingSpeed = 5500f;
-		speed = 300f;
+		hittingPointMovingSpeed = 8000f;
+		speed = 320f;
 	}
 
 	public void SetModeAsFork(){
 		ballMode = 3;
-		hittingPointMovingSpeed = 5000f;
+		hittingPointMovingSpeed = 9000f;
 		speed = 270f;
 	}
 

@@ -37,18 +37,12 @@ public class BreakBall : MonoBehaviour {
 			breakPoint = new Vector3 (-0.2f, -0.8f, -1f);
 			break;
 		case 2://Cutter
-			yield return new WaitForSeconds (0.23f);
-			for (int i = 0; i < 20; i++) {
-				yield return new WaitForSeconds (0.05f);
-				force = 600f;
-				breakPoint = new Vector3 (0.2f, -0.2f, -2f);
-				rigidbody.AddForce (breakPoint.normalized * force);
-			}
+			yield return new WaitForSeconds (0.3f);
 			force = 1500f;
-			breakPoint = new Vector3 (0.2f, -0.2f, -2f);
+			breakPoint = new Vector3 (0.5f, -0.2f, 0.1f);
 			break;
 		case 3://Forkball
-			yield return new WaitForSeconds (0.32f);
+			yield return new WaitForSeconds (0.37f);
 			force = 2100f;
 			breakPoint = new Vector3 (0f, -0.7f, 0f);
 			break;
