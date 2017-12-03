@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/field.unity
+- path: Assets/StartUI.unity
   isLoaded: 1
   isActive: 1
